@@ -4,6 +4,7 @@
         <a href="/question/list" class="btn btn-secondary category-link" data-category="">전체</a>
         <a href="/question/list?category=카테고리1" class="btn btn-secondary category-link" data-category="카테고리1">카테고리1</a>
         <a href="/question/list?category=카테고리2" class="btn btn-secondary category-link" data-category="카테고리2">카테고리2</a>
+        <a href="/question/list?category=카테고리3" class="btn btn-secondary category-link" data-category="카테고리3">카테고리3</a>
         <!-- 추가적인 카테고리 옵션들을 필요에 따라 추가 -->
     </div>
 
@@ -20,7 +21,7 @@
             </thead>
             <tbody>
             <tr th:each="question, loop : ${paging}">
-                <td th:text="${paging.getTotalElements - (paging.number*paging.size) - loop.index}"></td>
+                <td th:text="${loop.count}"></td>
                 <td>
                     <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
                     <span class="text-danger small ms-2"

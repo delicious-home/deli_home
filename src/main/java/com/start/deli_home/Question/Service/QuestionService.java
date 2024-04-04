@@ -46,13 +46,14 @@ public class QuestionService {
     }
 
     public Page<Question> getList(int page, String category) {
-        Pageable pageable = PageRequest.of(page, 10, Sort.by("createDate").descending());
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("createDate").ascending());
         if (category != null && !category.isEmpty()) {
             return this.questionRepository.findByCategory(category, pageable);
         } else {
             return this.questionRepository.findAll(pageable);
         }
     }
+
     public void modify(Question question, String subject, String content) {
         question.setSubject(subject);
         question.setContent(content);
