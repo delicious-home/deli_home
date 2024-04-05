@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!-- 부트스트랩 CSS 링크 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+<div class="container my-3">
+    <!-- 카테고리 선택 링크 -->
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a href="/question/list" class="btn btn-secondary category-link" data-category="">전체</a>
+        <a href="/question/list?category=카테고리1" class="btn btn-secondary category-link" data-category="카테고리1">카테고리1</a>
+        <a href="/question/list?category=카테고리2" class="btn btn-secondary category-link" data-category="카테고리2">카테고리2</a>
+        <a href="/question/list?category=카테고리3" class="btn btn-secondary category-link" data-category="카테고리3">카테고리3</a>
+        <!-- 추가적인 카테고리 옵션들을 필요에 따라 추가 -->
+    </div>
+
+    <!-- 리스트 표시 -->
+    <div id="question-list">
+        <!-- 자바스크립트로 필터링된 결과가 여기에 동적으로 추가됩니다. -->
+        <table class="table">
+            <thead class="table-dark">
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성일시</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="question, loop : ${paging}">
+                <td th:text="${loop.count}"></td>
+                <td>
+                    <img th:src="@{|/file/${question.thumbnailImg}|}" alt="사진">
+
+                    <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
+                    <span class="text-danger small ms-2"
+                          th:if="${#lists.size(question.reviewList) > 0}"
+                          th:text="${#lists.size(question.reviewList)}">
+                    </span>
+                </td>
+                <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- 페이징처리 -->
+        <!-- 여기에 페이징처리 부분을 추가할 수 있습니다. -->
+    </div>
+
+</div>
+
+<!-- 부트스트랩 자바스크립트 링크 (부트스트랩 사용을 위해 필요) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+        integrity="sha384-7QipNf7F7AocExyK4RxapWYfLGyUsWscC+6+5Gt8D8a1qfy1pvdJLrZbfak+IhyS"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-pzD4SoYHQKO3W0ERDAVFkzrV5BqIhqEzYhLg+2aX6zIh/P8IlUKyWdhdEJAJLvHA"
+        crossorigin="anonymous"></script>
+<script>
+    // 카테고리 선택 링크 클릭 시
+    document.querySelectorAll('.category-link').forEach(link => {
+        link.addEventListener('click', event => {
+            event.preventDefault(); // 링크의 기본 동작 방지
+
+            const category = link.dataset.category; // 선택된 카테고리 값
+
+            // 선택된 카테고리 페이지로 이동
+            window.location.href = `/question/list?category=${category}`;
+        });
+    });
+</script>
+</body>
+</html>
