@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Getter
@@ -18,4 +19,22 @@ public class QuestionForm {
 
     @NotEmpty(message="카테고리는 필수항목입니다.")
     private String category;
+
+
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 }

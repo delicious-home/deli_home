@@ -5,6 +5,7 @@ import com.start.deli_home.Question.Entity.Question;
 import com.start.deli_home.Question.Service.QuestionService;
 import com.start.deli_home.Question.QuestionForm.QuestionForm;
 import com.start.deli_home.Review.ReviewForm.ReviewForm;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,11 +41,12 @@ public class QuestionController {
         return "question_form";
     }
     @PostMapping("/create")
-    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult){
+    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult,
+                                 @RequestParam("thumbnail") MultipartFile thumbnail){
         if (bindingResult.hasErrors()){
             return "question_form";
         }
-        this.questionService.create(questionForm.getSubject(), questionForm.getContent(),questionForm.getCategory());
+        this.questionService.create(questionForm.getSubject(), questionForm.getContent(),questionForm.getCategory(),thumbnail);
         return "redirect:/question/list";
     }
     @GetMapping("/modify/{id}")
@@ -56,7 +59,7 @@ public class QuestionController {
     }
     @PostMapping("/modify/{id}")
     public String questionModify(@Valid QuestionForm questionForm, BindingResult bindingResult,
-                                  @PathVariable("id") Integer id) {
+                                 @PathVariable("id") Integer id) {
         if (bindingResult.hasErrors()) {
             return "question_form";
         }

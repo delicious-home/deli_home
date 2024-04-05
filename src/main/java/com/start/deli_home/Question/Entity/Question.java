@@ -33,4 +33,9 @@ public class Question {
     @Column(name = "create_date")
     private LocalDateTime createDate;
 
+    private String thumbnailImg;
+
+    public void thumbnailImg(String thumbnailRelPath) {
+        this.thumbnailImg = thumbnailRelPath;
+    }
 }

@@ -17,3 +17,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update # DB 스키마 자동생성, 앱이 재실행되어도 데이터는 유지된다.
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB # 최대 파일 크기 설정
+      max-request-size: 10MB # 최대 요청 크기 설정
+custom:
+  fileDirPath: C:\thumbnail
