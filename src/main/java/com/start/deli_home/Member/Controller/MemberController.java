@@ -9,12 +9,12 @@ import com.start.deli_home.Member.Service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.security.Principal;
 
 @RequiredArgsConstructor
@@ -106,11 +106,32 @@ public class MemberController {
         return "edit_profile_form";
     }
     @PostMapping("/modify")
-    public String modifyPassword(@RequestParam("username") String username,
-                                 @RequestParam("newPassword") String newPassword) {
-        memberService.modifyPassword(username, newPassword);
+    public String modify(@ModelAttribute MemberModifyForm memberModifyForm) {
+        // 이메일이나 아이디가 변경될 수 있으므로, 현재 사용자 정보를 가져온 후 업데이트합니다.
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = principal.getName();
+        Member member = this.memberService.getMember(currentUsername);
+
+        // 이메일과 아이디 업데이트
+        member.setUsername(memberModifyForm.getUsername());
+        member.setEmail(memberModifyForm.getEmail());
+
+        // 새 비밀번호가 입력된 경우에만 변경
+        if (!memberModifyForm.getNewPassword().isEmpty()) {
+            // 기존 비밀번호 검증 후 변경
+            if (memberModifyForm.getPassword().equals(member.getPassword()) && memberModifyForm.getNewPassword().equals(memberModifyForm.getConfirmPassword())) {
+                member.setPassword(memberModifyForm.getNewPassword());
+            } else {
+                // 비밀번호가 일치하지 않는 경우 예외 처리 또는 오류 메시지 반환
+            }
+        }
+
+        // 멤버 정보 저장
+        this.memberService.modify(member, memberModifyForm.getUsername(), memberModifyForm.getEmail(), memberModifyForm.getNewPassword());
+
         return "redirect:/";
     }
+
 
 
 

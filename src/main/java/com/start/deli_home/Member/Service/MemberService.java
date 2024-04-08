@@ -3,15 +3,12 @@ package com.start.deli_home.Member.Service;
 
 import com.start.deli_home.Email.EmailService;
 import com.start.deli_home.Member.Entity.Member;
-import com.start.deli_home.Member.Form.MemberModifyForm;
 import com.start.deli_home.Member.Repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
-import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Optional;
 
@@ -30,12 +27,17 @@ public class MemberService {
         this.memberRepository.save(user);
         return user;
     }
-    public void modify (Member member,String username, String password, String email) {
+    public void modify(Member member, String username, String email, CharSequence password) {
         member.setUsername(username);
-        member.setPassword(password);
         member.setEmail(email);
+
+        if (!password.isEmpty()) {
+            member.setPassword(passwordEncoder.encode(password));
+        }
+
         this.memberRepository.save(member);
     }
+
     public Member findByEmail(String email) {
         Optional<Member> member = this.memberRepository.findByEmail(email);
         if (member.isEmpty()) {
