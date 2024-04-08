@@ -1,12 +1,15 @@
 package com.start.deli_home.Member.Controller;
 
 
+import com.start.deli_home.Member.Entity.EmailForm;
+import com.start.deli_home.Member.Entity.Member;
 import com.start.deli_home.Member.Form.MemberForm;
 import com.start.deli_home.Member.Service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,5 +50,22 @@ public class MemberController {
         }
 
         return "redirect:/question/list";
+    }
+    @GetMapping("/findId")
+    public String showFindIdForm(EmailForm emailForm) {
+        return "temp_password_form";
+    }
+
+    @PostMapping("/findId")
+    public String memberFindId(Model model, @Valid EmailForm emailForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "temp_password_form";
+        }
+        Member member = this.memberService.findByEmail(emailForm.getEmail());
+        if (member != null) {
+            model.addAttribute("idFound", true);
+            model.addAttribute("id", member.getUsername());
+        }
+        return "temp_password_form";
     }
 }
