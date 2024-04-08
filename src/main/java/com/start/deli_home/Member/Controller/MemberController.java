@@ -4,6 +4,7 @@ package com.start.deli_home.Member.Controller;
 import com.start.deli_home.Member.Entity.EmailForm;
 import com.start.deli_home.Member.Entity.Member;
 import com.start.deli_home.Member.Form.MemberForm;
+import com.start.deli_home.Member.Form.MemberModifyForm;
 import com.start.deli_home.Member.Service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +12,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.security.Principal;
 
 @RequiredArgsConstructor
 @Controller
@@ -94,4 +96,22 @@ public class MemberController {
         }
         return "redirect:/";
     }
+    @GetMapping("/modify")
+    public String modify (Principal principal,MemberModifyForm memberModifyForm) {
+        Member member = this.memberService.getMember(principal.getName());
+        memberModifyForm.setEmail(member.getEmail());
+        memberModifyForm.setUsername(member.getUsername());
+        memberModifyForm.setPassword(member.getPassword());
+
+        return "edit_profile_form";
+    }
+    @PostMapping("/modify")
+    public String modifyPassword(@RequestParam("username") String username,
+                                 @RequestParam("newPassword") String newPassword) {
+        memberService.modifyPassword(username, newPassword);
+        return "redirect:/";
+    }
+
+
+
 }

@@ -3,12 +3,15 @@ package com.start.deli_home.Member.Service;
 
 import com.start.deli_home.Email.EmailService;
 import com.start.deli_home.Member.Entity.Member;
+import com.start.deli_home.Member.Form.MemberModifyForm;
 import com.start.deli_home.Member.Repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Optional;
 
@@ -26,6 +29,12 @@ public class MemberService {
         user.setPassword(passwordEncoder.encode(password));
         this.memberRepository.save(user);
         return user;
+    }
+    public void modify (Member member,String username, String password, String email) {
+        member.setUsername(username);
+        member.setPassword(password);
+        member.setEmail(email);
+        this.memberRepository.save(member);
     }
     public Member findByEmail(String email) {
         Optional<Member> member = this.memberRepository.findByEmail(email);
@@ -56,4 +65,19 @@ public class MemberService {
         }
         return password.toString();
     }
+    public Member getMember(String username) {
+        Optional<Member> member = this.memberRepository.findByusername(username);
+        if (member.isEmpty()) {
+            return null;
+        }
+        return member.get();
+    }
+    public void modifyPassword(String username, String newPassword) {
+        Member member = this.memberRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("해당 유저가 존재하지 않습니다."));
+
+        member.setPassword(passwordEncoder.encode(newPassword));
+        this.memberRepository.save(member);
+    }
+
 }
