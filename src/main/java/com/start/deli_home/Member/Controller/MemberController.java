@@ -21,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MemberController {
     private final MemberService memberService;
 
+    @GetMapping("/login")
+    public String login() {
+        return "login_form";
+    }
+
     @GetMapping("/signup")
     public String signup(MemberForm memberForm) {
         return "signup_form";
@@ -67,5 +72,26 @@ public class MemberController {
             model.addAttribute("id", member.getUsername());
         }
         return "temp_password_form";
+    }
+    @GetMapping("/tempPassword")
+    public String sendTempPassword(EmailForm emailForm) {
+        return "temp_password_form";
+    }
+
+    @PostMapping("/tempPassword")
+    public String sendTempPassword(@Valid EmailForm emailForm,
+                                   BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "temp_password_form";
+        }
+
+        try {
+            memberService.modifyPassword(emailForm.getEmail());
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            bindingResult.reject("emailNotFound", e.getMessage());
+            return "temp_password_form";
+        }
+        return "redirect:/";
     }
 }
