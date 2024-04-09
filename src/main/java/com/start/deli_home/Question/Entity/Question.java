@@ -1,5 +1,6 @@
 package com.start.deli_home.Question.Entity;
 
+import com.start.deli_home.Member.Entity.Member;
 import com.start.deli_home.Review.Entity.Review;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,6 +22,9 @@ public class Question {
 
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    @ManyToOne
+    private Member author;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Review> reviewList;

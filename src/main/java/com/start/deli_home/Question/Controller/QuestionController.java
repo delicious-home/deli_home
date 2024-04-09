@@ -9,11 +9,17 @@ import com.start.deli_home.Review.ReviewForm.ReviewForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,13 +29,27 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("/list")
-    public String questionList(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
-                               @RequestParam(value = "category", required = false) String category) {
-        Page<Question> paging = this.questionService.getList(page, category);
-        model.addAttribute("paging", paging);
-        model.addAttribute("selectedCategory", category); // 선택된 카테고리를 모델에 추가
+    public String questionList(Model model,
+                               @RequestParam(value = "page", defaultValue = "0") int page,
+                               @RequestParam(value = "category", required = false) String category,
+                               @RequestParam(value = "searchKeyword", required = false) String searchKeyword) {
+        Page<Question> list;
+
+        if (searchKeyword != null && !searchKeyword.isEmpty()) {
+            list = questionService.boardSearchList(searchKeyword, PageRequest.of(page, 10, Sort.Direction.DESC, "id"));
+        } else {
+            list = questionService.getList(page, category);
+        }
+
+        model.addAttribute("paging", list);
+        model.addAttribute("selectedCategory", category);
+        model.addAttribute("searchKeyword", searchKeyword);
         return "question_list";
     }
+
+
+
+
     @GetMapping("/detail/{id}")
     public String questionDetail(Model model, @PathVariable("id") Integer id, ReviewForm reviewForm){
         Question question = this.questionService.getQuestion(id);
@@ -75,5 +95,6 @@ public class QuestionController {
         this.questionService.delete(question);
         return "redirect:/question/list";
     }
+
 
 }

@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -81,4 +80,13 @@ public class QuestionService {
     public void delete(Question question){
         questionRepository.delete(question);
     }
+    // 게시글 리스트 처리
+    public Page<Question> boardList(Pageable pageable) {
+        return questionRepository.findAll(pageable);
+    }
+
+    public Page<Question> boardSearchList(String searchKeyword, Pageable pageable) { // 검색 기능 추가
+        return questionRepository.findBySubjectContaining(searchKeyword, pageable);
+    }
+
 }

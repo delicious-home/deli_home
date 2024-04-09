@@ -1,5 +1,6 @@
 package com.start.deli_home.Review.Entity;
 
+import com.start.deli_home.Member.Entity.Member;
 import com.start.deli_home.Question.Entity.Question;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,4 +25,7 @@ public class Review {
 
     @ManyToOne
     private Question question;
+
+    @ManyToOne
+    private Member author;
 }
