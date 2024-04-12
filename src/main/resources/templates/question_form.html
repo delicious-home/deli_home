@@ -21,8 +21,9 @@
             <label for="content" class="form-label">내용</label>
             <textarea th:field="*{content}" class="form-control" rows="10"></textarea>
         </div>
+        //등록폼
         <h3>사진</h3>
-        <input type="file" name="thumbnail" accept="image/png, image/gif, image/jpeg">
+        <input type="file" name="images" accept="image/png, image/gif, image/jpeg" multiple>
         <!-- 카테고리 선택 폼 추가 -->
         <div class="mb-3">
             <label for="category" class="form-label">카테고리</label>

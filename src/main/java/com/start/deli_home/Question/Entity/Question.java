@@ -1,12 +1,15 @@
 package com.start.deli_home.Question.Entity;
 
 import com.start.deli_home.Member.Entity.Member;
+
+//import com.start.deli_home.MultiPhoto.Entity.MultiPhoto;
 import com.start.deli_home.Review.Entity.Review;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -42,4 +45,11 @@ public class Question {
     public void thumbnailImg(String thumbnailRelPath) {
         this.thumbnailImg = thumbnailRelPath;
     }
+
+
+
+
+    @ElementCollection
+    private List<String> images = new ArrayList<>();
+
 }

@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,20 +44,25 @@ public class QuestionService {
         }
     }
 
-    public void create(String subject, String content, String category, MultipartFile thumbnail) {
-        String thumbnailRelPath = "article/" + UUID.randomUUID().toString() + ".jpg";
-        File thumbnailFile = new File(fileDirPath + "/" + thumbnailRelPath);
+    public void create(String subject, String content, String category, List<MultipartFile> images) {
+        List<String> imagePaths = new ArrayList<>();
 
-        try {
-            thumbnail.transferTo(thumbnailFile);
-        } catch (IOException e) {
-            throw  new RuntimeException(e);
+        for (MultipartFile image : images) {
+            String imageRelPath = "article/" + UUID.randomUUID().toString() + ".jpg";
+            File imageFile = new File(fileDirPath + "/" + imageRelPath);
+
+            try {
+                image.transferTo(imageFile);
+                imagePaths.add(imageRelPath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         Question q = new Question();
         q.setContent(content);
         q.setSubject(subject);
-        q.thumbnailImg(thumbnailRelPath);
+        q.setImages(imagePaths);
         q.setCategory(category);
 
         q.setCreateDate(LocalDateTime.now());

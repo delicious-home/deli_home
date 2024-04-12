@@ -46,10 +46,6 @@ public class QuestionController {
         model.addAttribute("searchKeyword", searchKeyword);
         return "question_list";
     }
-
-
-
-
     @GetMapping("/detail/{id}")
     public String questionDetail(Model model, @PathVariable("id") Integer id, ReviewForm reviewForm){
         Question question = this.questionService.getQuestion(id);
@@ -62,11 +58,11 @@ public class QuestionController {
     }
     @PostMapping("/create")
     public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult,
-                                 @RequestParam("thumbnail") MultipartFile thumbnail){
+                                 @RequestParam("images") List<MultipartFile> images){
         if (bindingResult.hasErrors()){
             return "question_form";
         }
-        this.questionService.create(questionForm.getSubject(), questionForm.getContent(),questionForm.getCategory(),thumbnail);
+        this.questionService.create(questionForm.getSubject(), questionForm.getContent(),questionForm.getCategory(),images);
         return "redirect:/question/list";
     }
     @GetMapping("/modify/{id}")
@@ -95,6 +91,4 @@ public class QuestionController {
         this.questionService.delete(question);
         return "redirect:/question/list";
     }
-
-
 }
