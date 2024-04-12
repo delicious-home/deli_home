@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>프로필</title>
+</head>
+<body>
+<h1>프로필</h1>
+<div>
+    <p>사용자 이름: <span th:text="${member.username}"></span></p>
+    <p>이메일: <span th:text="${member.email}"></span></p>
+    <!-- 썸네일 이미지 표시 -->
+<!--    <img th:src="@{'/user/thumbnail/' + ${member.thumbnailImg}}" th:alt="프로필 이미지" style="max-width: 200px; max-height: 200px;">-->
+    <img th:src="@{|/file/${member.thumbnailImg}|}" alt="사진">
+
+</div>
+</body>
+</html>

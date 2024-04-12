@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 
@@ -34,7 +35,8 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public String signup(@Valid MemberForm memberForm, BindingResult bindingResult) {
+    public String signup(@Valid MemberForm memberForm, BindingResult bindingResult,
+                         @RequestParam("thumbnail") MultipartFile thumbnail) {
         if (bindingResult.hasErrors()) {
             return "signup_form";
         }
@@ -45,7 +47,7 @@ public class MemberController {
         }
 
         try {
-            memberService.create(memberForm.getUsername(), memberForm.getEmail(), memberForm.getPassword1());
+            memberService.create(memberForm.getUsername(), memberForm.getEmail(), memberForm.getPassword1(),thumbnail);
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
@@ -131,4 +133,12 @@ public class MemberController {
 
         return "redirect:/";
     }
+    @GetMapping("/profile")
+    public String profile(Model model, Principal principal) {
+        String username = principal.getName();
+        Member member = memberService.getMember(username);
+        model.addAttribute("member", member);
+        return "profile";
+    }
+
 }

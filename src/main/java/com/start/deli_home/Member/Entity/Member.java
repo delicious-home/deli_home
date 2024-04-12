@@ -24,4 +24,9 @@ public class Member {
     @Column(unique = true)
     private String email;
 
+    private String thumbnailImg;
+
+    public void thumbnailImg(String thumbnailRelPath) {
+        this.thumbnailImg = thumbnailRelPath;
+    }
 }

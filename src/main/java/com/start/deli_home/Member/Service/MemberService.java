@@ -6,11 +6,16 @@ import com.start.deli_home.Member.Entity.Member;
 import com.start.deli_home.Member.Repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -19,10 +24,23 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
-    public Member create(String username, String email, String password) {
+    @Value("${custom.fileDirPath}")
+    private String fileDirPath;
+
+    public Member create(String username, String email, String password, MultipartFile thumbnail) {
+        String thumbnailRelPath = "article/" + UUID.randomUUID().toString() + ".jpg";
+        File thumbnailFile = new File(fileDirPath + "/" + thumbnailRelPath);
+
+        try {
+            thumbnail.transferTo(thumbnailFile);
+        } catch (IOException e) {
+            throw  new RuntimeException(e);
+        }
+
         Member user = new Member();
         user.setUsername(username);
         user.setEmail(email);
+        user.thumbnailImg(thumbnailRelPath);
         user.setPassword(passwordEncoder.encode(password));
         this.memberRepository.save(user);
         return user;
