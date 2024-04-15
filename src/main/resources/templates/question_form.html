@@ -21,16 +21,45 @@
             <label for="content" class="form-label">내용</label>
             <textarea th:field="*{content}" class="form-control" rows="10"></textarea>
         </div>
-        //등록폼
+        <div class="mb-3">
+            <label for="shopName" class="form-label">가게이름</label>
+            <input type="text" th:field="*{shopName}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="foodType" class="form-label">전문음식</label>
+            <input type="text" th:field="*{foodType}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="address" class="form-label">주소</label>
+            <input type="text" th:field="*{address}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="introduce" class="form-label">매장 소개</label>
+            <textarea th:field="*{introduce}" class="form-control" rows="10"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="time" class="form-label">운영 시간</label>
+            <input type="text" th:field="*{time}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="menu" class="form-label">대표 메뉴</label>
+            <input type="text" th:field="*{menu}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label">매장 전화번호</label>
+            <input type="text" th:field="*{phone}" class="form-control">
+        </div>
+
+
         <h3>사진</h3>
         <input type="file" name="images" accept="image/png, image/gif, image/jpeg" multiple>
         <!-- 카테고리 선택 폼 추가 -->
         <div class="mb-3">
             <label for="category" class="form-label">카테고리</label>
             <select name="category" class="form-select">
-                <option value="카테고리1">카테고리1</option>
-                <option value="카테고리2">카테고리2</option>
-                <option value="카테고리3">카테고리3</option>
+                <option value="한식">한식</option>
+                <option value="중식">중식</option>
+                <option value="양식">양식</option>
                 <!-- 추가적인 카테고리 옵션들을 필요에 따라 추가 -->
             </select>
         </div>

@@ -26,6 +26,27 @@ public class Question {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    @Column
+    private String shopName;
+
+    @Column
+    private String foodType;
+
+    @Column
+    private String address;
+
+    @Column
+    private String introduce;
+
+    @Column
+    private String time;
+
+    @Column
+    private String menu;
+
+    @Column
+    private String phone;
+
     @ManyToOne
     private Member author;
 

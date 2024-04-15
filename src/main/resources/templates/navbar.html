@@ -1,6 +1,6 @@
 <nav th:fragment="navbarFragment" class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">SBB</a>
+        <a class="navbar-brand" href="/">홈</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -15,6 +15,9 @@
                     <a class="nav-link" th:href="@{/user/signup}">회원가입</a>
                 </li>
             </ul>
+            <a class="nav-link text-dark" th:href="@{|/question/list?category=한식|}">한식</a>
+            <a class="nav-link text-dark" th:href="@{|/question/list?category=중식|}">중식</a>
+            <a class="nav-link text-dark" th:href="@{|/question/list?category=양식|}">양식</a>
         </div>
     </div>
 </nav>

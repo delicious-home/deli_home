@@ -1,54 +1,95 @@
 <html layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* 추가적인 스타일은 여기에 추가하세요 */
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: auto;
+        }
+        .content-wrapper {
+            max-width: 1000px; /* 내용의 최대 너비를 지정하세요 */
+            width: 100%;
+            padding: 0 20px; /* 내용의 좌우 여백을 지정하세요 */
+        }
+    </style>
+</head>
+<body>
 <div layout:fragment="content" class="container my-3">
-    <!-- 질문 -->
-    <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
-    <div class="card my-3">
-        <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;" th:text="${question.content}"></div>
-            <div class="d-flex justify-content-end">
-                <div class="badge bg-light text-dark p-2 text-start">
-                    <!--                    <div th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></div>-->
+    <div class="center-content">
+        <div class="content-wrapper">
+            <!-- 여기에 내용을 넣으세요 -->
+            <!-- 추가된 이미지 표시 부분 -->
+            <div th:if="${not #lists.isEmpty(question.images)}" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <div th:each="image : ${question.images}" style="flex: 0 0 auto; margin-right: 10px;">
+                    <img th:src="@{|/file/${image}|}" alt="사진" style="max-width: 300px; max-height: 200px;">
+                </div>
+            </div>
+            <!-- 질문 -->
+            <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
+            <div class="card my-3">
+                <div class="card-body">
+                    <div class="card-text" style="white-space: pre-line;" th:text="${question.content}"></div>
+                    <div class="my-3">
+                        <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary mr-2" th:text="수정"></a>
+                        <a th:href="@{|/question/delete/${question.id}|}" class="btn btn-sm btn-outline-secondary" th:text="삭제"></a>
+                    </div>
 
-                    <!-- 추가된 이미지 표시 부분 -->
-                    <div th:each="image : ${question.images}">
-                        <img th:src="@{|/file/${image}|}" alt="사진">
+                    <div class="d-flex justify-content-end">
+                        <div class="badge bg-light text-dark p-2 text-start">
+                            <!--                    <div th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></div>-->
+                            <div class="d-flex justify-content-between">
+                                <div style="border: 1px solid #000; padding: 10px; width: 450px; height: 300px; border-radius: 8px; margin-right: 10px;">
+                                    <h2 class="border-bottom py-2" th:text="'주소: ' + ${question.address}"></h2>
+                                    <h2 class="border-bottom py-2" th:text="'영업시간: ' +${question.time}"></h2>
+                                    <h2 class="border-bottom py-2" th:text="'전화: '+ ${question.phone}"></h2>
+                                </div>
+                                <div style="border: 1px solid #000; padding: 10px; width: 450px; height: 300px; border-radius: 8px; white-space: pre-wrap;">
+                                    <h2 class="border-bottom py-2" th:text="'매장 소개: ' + ${question.introduce}"></h2>
+                                </div>
+                            </div>
+                            <div  style="border: 1px solid #000; padding: 10px; width: 450px; height: 300px; border-radius: 8px;">
+                                <h2 class="border-bottom py-2" th:text="'대표메뉴:' + ${question.menu}"></h2>
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
-                <div class="my-3">
-                    <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
-                       th:text="수정"></a>
-                </div>
-                <div class="my-3">
-                    <a th:href="@{|/question/delete/${question.id}|}" class="btn btn-sm btn-outline-secondary"
-                       th:text="삭제"></a>
+            </div>
+            <!-- 답변의 갯수 표시 -->
+            <h5 class="border-bottom my-3 py-2"
+                th:text="|${#lists.size(question.reviewList)}개의 리뷰가 있습니다.|"></h5>
+            <!-- 답변 반복 시작 -->
+            <div class="card my-3" th:each="review : ${question.reviewList}">
+                <div class="card-body">
+                    <div class="card-text" style="white-space: pre-line;" th:text="${review.content}"></div>
+                    <div class="d-flex justify-content-end">
+                        <div class="badge bg-light text-dark p-2 text-start">
+                            <div th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- 답변의 갯수 표시 -->
-    <h5 class="border-bottom my-3 py-2"
-        th:text="|${#lists.size(question.reviewList)}개의 리뷰가 있습니다.|"></h5>
-    <!-- 답변 반복 시작 -->
-    <div class="card my-3" th:each="review : ${question.reviewList}">
-        <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;" th:text="${review.content}"></div>
-            <div class="d-flex justify-content-end">
-                <div class="badge bg-light text-dark p-2 text-start">
-                    <div th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+            <!-- 답변 반복 끝  -->
+            <!-- 답변 작성 -->
+            <form th:action="@{|/review/create/${question.id}|}" method="post" class="my-3">
+                <textarea name="content" id="content" rows="10" class="form-control"></textarea>
+                <!-- 이미지 파일 업로드를 위한 input 추가 -->
+                <div class="mb-3">
+                    <label for="image" class="form-label">이미지 업로드</label>
+                    <input type="file" id="image" name="image" class="form-control">
                 </div>
-            </div>
+                <input type="submit" value="리뷰등록" class="btn btn-dark my-2">
+            </form>
         </div>
     </div>
-    <!-- 답변 반복 끝  -->
-    <!-- 답변 작성 -->
-    <form th:action="@{|/review/create/${question.id}|}" method="post" class="my-3">
-        <textarea name="content" id="content" rows="10" class="form-control"></textarea>
-        <!-- 이미지 파일 업로드를 위한 input 추가 -->
-        <div class="mb-3">
-            <label for="image" class="form-label">이미지 업로드</label>
-            <input type="file" id="image" name="image" class="form-control">
-        </div>
-        <input type="submit" value="답변등록" class="btn btn-primary my-2">
-    </form>
 </div>
+</body>
 </html>

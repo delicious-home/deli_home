@@ -1,13 +1,33 @@
 <html layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
 <div layout:fragment="content" class="container my-3">
     <!-- 카테고리 선택 링크 -->
-    <div class="btn-group" role="group" aria-label="Basic example">
-        <a href="/question/list" class="btn btn-secondary category-link" data-category="">전체</a>
-        <a href="/question/list?category=카테고리1" class="btn btn-secondary category-link" data-category="카테고리1">카테고리1</a>
-        <a href="/question/list?category=카테고리2" class="btn btn-secondary category-link" data-category="카테고리2">카테고리2</a>
-        <a href="/question/list?category=카테고리3" class="btn btn-secondary category-link" data-category="카테고리3">카테고리3</a>
-        <!-- 추가적인 카테고리 옵션들을 필요에 따라 추가 -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="/question/list" class="btn btn-secondary category-link mx-2" data-category="">전체</a>
+                    <a href="/question/list?category=한식" class="btn btn-secondary category-link mx-2" data-category="한식">한식</a>
+                    <a href="/question/list?category=중식" class="btn btn-secondary category-link mx-2" data-category="중식">중식</a>
+                    <a href="/question/list?category=양식" class="btn btn-secondary category-link mx-2" data-category="양식">양식</a>
+                    <!-- 추가적인 카테고리 옵션들을 필요에 따라 추가 -->
+                </div>
+            </div>
+            <div class="col">
+                <form th:action="@{/question/list}" method="get" class="form-inline">
+                    <input type="text" name="searchKeyword" class="form-control mr-2">
+                    <button type="submit" class="btn btn-dark">검색</button>
+                </form>
+            </div>
+        </div>
     </div>
+
 
     <!-- 리스트 표시 -->
     <div id="question-list">
@@ -16,27 +36,33 @@
         <table class="table">
             <thead class="table-dark">
             <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>작성일시</th>
+
             </tr>
             </thead>
             <tbody>
             <tr th:each="question, loop : ${paging}">
                 <td th:text="${loop.count}"></td>
                 <td>
-                    <div th:if="${not #lists.isEmpty(question.images)}">
-                        <img th:src="@{|/file/${question.images[0]}|}" alt="사진">
-                    </div>
-
-
-
+                    <div th:if="${not #lists.isEmpty(question.images)}" style="display: flex; align-items: center;">
+                        <div>
+                            <a th:href="@{|/question/detail/${question.id}|}">
+                            <img th:src="@{|/file/${question.images[0]}|}" alt="사진" style="max-width: 300px; max-height: 200px;">
+                            </a>
+                        </div>
                     <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
+                    <div style="margin-left: 10px;">
+                        <div th:text="${question.shopName}"></div>
+                    </div>
+                        <div style="margin-left: 10px;">
+                            <div th:text="${question.foodType}"></div>
+                        </div>
                     <span class="text-danger small ms-2"
                           th:if="${#lists.size(question.reviewList) > 0}"
                           th:text="${#lists.size(question.reviewList)}">
                     </span>
+                    </div>
                 </td>
+
                 <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
             </tr>
             </tbody>
@@ -53,9 +79,10 @@
                 <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
                     th:if="${page >= paging.number-5 and page <= paging.number+5}"
                     th:classappend="${page == paging.number} ? 'active'"
-                    class="page-item">
-                    <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+                    class="page-item bg-dark">
+                    <a th:text="${page}" class="page-link text-dark" th:href="@{|?page=${page}|}"></a>
                 </li>
+
                 <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
                     <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
                         <span>다음</span>
@@ -65,11 +92,8 @@
         </div>
         <!-- 페이징처리 끝 -->
     </div>
-    <a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
-    <form th:action="@{/question/list}" method="get">
-        <input type="text" name="searchKeyword">
-        <button type="submit">검색</button>
-    </form>
+    <a th:href="@{/question/create}" class="btn btn-dark">질문 등록하기</a>
+
 </div>
 
 <script>
@@ -86,4 +110,5 @@
     });
 </script>
 <a th:if="${page != nowPage}" th:href="@{/board/list(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>
+</body>
 </html>

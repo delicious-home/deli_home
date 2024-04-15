@@ -62,7 +62,9 @@ public class QuestionController {
         if (bindingResult.hasErrors()){
             return "question_form";
         }
-        this.questionService.create(questionForm.getSubject(), questionForm.getContent(),questionForm.getCategory(),images);
+        this.questionService.create(questionForm.getSubject(), questionForm.getContent(),questionForm.getCategory(),images,
+                questionForm.getAddress(),questionForm.getIntroduce(),questionForm.getTime(),questionForm.getMenu(),
+                questionForm.getPhone(),questionForm.getShopName(),questionForm.getFoodType());
         return "redirect:/question/list";
     }
     @GetMapping("/modify/{id}")

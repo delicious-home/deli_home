@@ -19,10 +19,29 @@ public class QuestionForm {
     @NotEmpty(message="내용은 필수항목입니다.")
     private String content;
 
+    @NotEmpty(message="가게 이름은 필수항목입니다.")
+    private String shopName;
+
+    @NotEmpty(message="음식전문은 필수항목입니다.")
+    private String foodType;
+
     @NotEmpty(message="카테고리는 필수항목입니다.")
     private String category;
 
+    @NotEmpty(message = "매장 주소를 입력해 주세요")
+    private String address;
 
+    @NotEmpty(message = "소개정보를 입력해 주세요")
+    private String introduce;
+
+    @NotEmpty(message = "운영시간을 입력해 주세요")
+    private String time;
+
+    @NotEmpty(message = "대표 메뉴를 입력해 주세요")
+    private String menu;
+
+    @NotEmpty(message = "가게 전화번호를 입력해 주세요")
+    private String phone;
 
     public String getContent() {
         return content;

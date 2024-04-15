@@ -44,7 +44,10 @@ public class QuestionService {
         }
     }
 
-    public void create(String subject, String content, String category, List<MultipartFile> images) {
+    public void create(String subject, String content, String category, List<MultipartFile> images,
+                       String address, String introduce,String time,
+                       String menu, String phone,
+                       String shopName, String foodType) {
         List<String> imagePaths = new ArrayList<>();
 
         for (MultipartFile image : images) {
@@ -62,6 +65,13 @@ public class QuestionService {
         Question q = new Question();
         q.setContent(content);
         q.setSubject(subject);
+        q.setAddress(address);
+        q.setIntroduce(introduce);
+        q.setTime(time);
+        q.setMenu(menu);
+        q.setPhone(phone);
+        q.setShopName(shopName);
+        q.setFoodType(foodType);
         q.setImages(imagePaths);
         q.setCategory(category);
 
