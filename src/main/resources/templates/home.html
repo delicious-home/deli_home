@@ -7,41 +7,64 @@
     <!-- 부트스트랩 CSS 링크 -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <style>
+        .carousel-inner img {
+            width: 30%; /* 이미지의 너비를 100%로 설정하여 부모 요소에 맞게 조정합니다. */
+            height: auto; /* 세로 비율을 유지하면서 너비에 따라 높이를 자동으로 조정합니다. */
+            max-width: 700px; /* 이미지의 최대 너비를 400px로 지정합니다. */
+            max-height: 600px; /* 이미지의 최대 높이를 300px로 지정합니다. */
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            font-size: 2rem; /* 아이콘 크기를 조정합니다. */
+            color: #000; /* 아이콘 색상을 검정색으로 설정합니다. */
+            background-color: transparent; /* 배경색을 투명으로 설정합니다. */
+            border: none; /* 테두리를 없앱니다. */
+            opacity: 0.5; /* 초기에는 투명도를 줄어들게 합니다. */
+            transition: opacity 0.3s ease; /* 부드러운 효과를 위한 트랜지션 */
+            z-index: 1; /* 사진 위에 화살표가 보이도록 z-index 설정 */
+        }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            opacity: 1; /* 마우스를 가져다 대면 투명도를 다시 증가시킵니다. */
+        }
+
+        .carousel-control-prev-icon::before,
+        .carousel-control-next-icon::before {
+            content: "<"; /* 이전 버튼에는 '<'를, 다음 버튼에는 '>'를 추가합니다. */
+        }
+    </style>
 </head>
 <body>
 <div layout:fragment="content" class="container my-3">
-    <!-- 카테고리 선택 링크 -->
-<!--    <div class="btn-group" role="group" aria-label="Basic example">-->
-<!--        <a href="/question/list" class="btn btn-secondary category-link" data-category="">전체</a>-->
-<!--        <a href="/question/list?category=한식" class="btn btn-secondary category-link" data-category="한식">한식</a>-->
-<!--        <a href="/question/list?category=중식" class="btn btn-secondary category-link" data-category="중식">중식</a>-->
-<!--        <a href="/question/list?category=양식" class="btn btn-secondary category-link" data-category="양식">양식</a>-->
-<!--        &lt;!&ndash; 추가적인 카테고리 옵션들을 필요에 따라 추가 &ndash;&gt;-->
-<!--    </div>-->
-</div>
-
-<!-- 부트스트랩 자바스크립트 링크 (부트스트랩 사용을 위해 필요) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
-        integrity="sha384-7QipNf7F7AocExyK4RxapWYfLGyUsWscC+6+5Gt8D8a1qfy1pvdJLrZbfak+IhyS"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-pzD4SoYHQKO3W0ERDAVFkzrV5BqIhqEzYhLg+2aX6zIh/P8IlUKyWdhdEJAJLvHA"
-        crossorigin="anonymous"></script>
-<script>
-    // 카테고리 선택 링크 클릭 시
-    document.querySelectorAll('.category-link').forEach(link => {
-        link.addEventListener('click', event => {
-            event.preventDefault(); // 링크의 기본 동작 방지
-
-            const category = link.dataset.category; // 선택된 카테고리 값
-
-            // 선택된 카테고리 페이지로 이동
-            window.location.href = `/question/list?category=${category}`;
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPt3tCuZZ_Hi2Svh1A0o2l58V6DavSj04Xs2_Iuyd_Ng&s" class="d-block w-100" alt="..." />
+            </div>
+            <div class="carousel-item">
+                <img src="https://a.cdn-hotels.com/gdcs/production188/d1750/2255e427-d720-43e2-ae85-6a6719fafc03.jpg" class="d-block w-100" alt="..." />
+            </div>
+            <div class="carousel-item">
+                <img src="https://news.kbs.co.kr/data/news/2017/01/04/3405677_bH6.jpg" class="d-block w-100" alt="..." />
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        </button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script>
+        // 자동으로 슬라이드 변경을 위한 JavaScript 코드
+        var myCarousel = document.querySelector('#carouselExample');
+        var carousel = new bootstrap.Carousel(myCarousel, {
+            interval: 2000 // 2초 간격으로 슬라이드 변경
         });
-    });
-</script>
+    </script>
+</div>
 </body>
 </html>
