@@ -20,10 +20,10 @@
             <a class="nav-link text-dark" th:href="@{|/question/list?category=양식|}">양식</a>
             <!-- 새로운 셀렉트 박스 추가 -->
             <select class="form-select form-select-sm border-0" aria-label=".form-select-sm example" onchange="if(this.value) window.location.href=this.value;" style="appearance: none;">
-                <option selected>카테고리 선택</option>
-                <option value="http://localhost:8010/question/list?category=한식">한식</option>
-                <option value="http://localhost:8010/question/list?category=중식">중식</option>
-                <option value="http://localhost:8010/question/list?category=양식">양식</option>
+                <option selected>기타</option>
+                <option value="http://localhost:8010/user/tempPassword">아이디,비번 찾기</option>
+                <option value="http://localhost:8010/user/modify">개인정보 수정</option>
+                <option value="http://localhost:8010/user/profile">프로필</option>
                 <option value="http://localhost:8010/test">test</option>
             </select>
         </div>

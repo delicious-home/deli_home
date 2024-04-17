@@ -28,4 +28,7 @@ public class Review {
 
     @ManyToOne
     private Member author;
+
+    @Column
+    private float rating;
 }

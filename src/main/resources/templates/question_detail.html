@@ -36,10 +36,10 @@
             <div class="card my-3">
                 <div class="card-body">
                     <div class="card-text" style="white-space: pre-line;" th:text="${question.content}"></div>
-                    <div class="my-3">
-                        <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary mr-2" th:text="수정"></a>
-                        <a th:href="@{|/question/delete/${question.id}|}" class="btn btn-sm btn-outline-secondary" th:text="삭제"></a>
-                    </div>
+<!--                    <div class="my-3">-->
+<!--                        <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary mr-2" th:text="수정"></a>-->
+<!--                        <a th:href="@{|/question/delete/${question.id}|}" class="btn btn-sm btn-outline-secondary" th:text="삭제"></a>-->
+<!--                    </div>-->
 
                     <div class="d-flex justify-content-end">
                         <div class="badge bg-light text-dark p-2 text-start">
@@ -63,29 +63,59 @@
                     </div>
                 </div>
             </div>
-            <!-- 답변의 갯수 표시 -->
+            <!-- 리뷰의 갯수 표시 -->
             <h5 class="border-bottom my-3 py-2"
                 th:text="|${#lists.size(question.reviewList)}개의 리뷰가 있습니다.|"></h5>
-            <!-- 답변 반복 시작 -->
+            <!-- 리뷰 반복 시작 -->
             <div class="card my-3" th:each="review : ${question.reviewList}">
                 <div class="card-body">
                     <div class="card-text" style="white-space: pre-line;" th:text="${review.content}"></div>
                     <div class="d-flex justify-content-end">
                         <div class="badge bg-light text-dark p-2 text-start">
+                            <div class="mb-2">
+                                <span th:if="${review.author != null}" th:text="${review.author.username}"></span>
+                            </div>
                             <div th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                            <div class="rating">
+                                <span class="rated-star" th:each="star : ${#numbers.sequence(1, review.rating)}">&#9733;</span>
+                            </div>
+                            <div class="my-3">
+                                <a th:href="@{|/review/modify/${review.id}|}" class="btn btn-sm btn-outline-secondary"
+                                   sec:authorize="isAuthenticated()"
+                                   th:if="${review.author != null and #authentication.getPrincipal().getUsername() == review.author.username}"
+                                   th:text="수정"></a>
+                                <!-- 삭제 버튼 -->
+                                <a th:href="@{|/review/delete/${review.id}|}" sec:authorize="isAuthenticated()" class="btn btn-sm btn-primary"
+                                   th:if="${review.author != null and (#authentication.getPrincipal().getUsername() == review.author.username
+                                or #authentication.getPrincipal().getUsername() == 'admin')}"
+                                   style="width: 100px; margin-right:10px;">삭제</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- 답변 반복 끝  -->
-            <!-- 답변 작성 -->
-            <form th:action="@{|/review/create/${question.id}|}" method="post" class="my-3">
-                <textarea name="content" id="content" rows="10" class="form-control"></textarea>
-                <!-- 이미지 파일 업로드를 위한 input 추가 -->
+            <!-- 리뷰 반복 끝  -->
+            <!-- 리뷰 작성 -->
+            <form th:action="@{|/review/create/${question.id}|}"  method="post" class="my-3">
+                <textarea sec:authorize="isAnonymous()" disabled name="content" id="content" rows="10" class="form-control"></textarea>
+                <textarea sec:authorize="isAuthenticated()"  name="content" id="content" rows="10" class="form-control"></textarea>
+                <!-- 별점 입력 -->
                 <div class="mb-3">
-                    <label for="image" class="form-label">이미지 업로드</label>
-                    <input type="file" id="image" name="image" class="form-control">
+                    <label for="rating" class="form-label">별점:</label><br>
+                    <div class="rating">
+                        <input type="radio" id="star5" name="rating" value="5"><label for="star5" title="5 stars">5</label>
+                        <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 stars">4</label>
+                        <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 stars">3</label>
+                        <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 stars">2</label>
+                        <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 star">1</label>
+                    </div>
                 </div>
+                <!-- 이미지 파일 업로드를 위한 input 추가 -->
+<!--                <div class="mb-3">-->
+<!--                    <label for="image" class="form-label">이미지 업로드</label>-->
+<!--                    <input type="file" id="image" name="image" class="form-control">-->
+<!--                </div>-->
+
                 <input type="submit" value="리뷰등록" class="btn btn-dark my-2">
             </form>
         </div>

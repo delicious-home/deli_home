@@ -58,7 +58,7 @@ public class MemberController {
             return "signup_form";
         }
 
-        return "redirect:/question/list";
+        return "redirect:/";
     }
     @GetMapping("/findId")
     public String showFindIdForm(EmailForm emailForm) {

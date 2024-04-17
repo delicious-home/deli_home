@@ -1,5 +1,6 @@
 package com.start.deli_home.Question.Service;
 
+import com.start.deli_home.Member.Entity.Member;
 import com.start.deli_home.Question.DataNotFoundException.DataNotFoundException;
 import com.start.deli_home.Question.Entity.Question;
 import com.start.deli_home.Question.Repository.QuestionRepository;
@@ -45,9 +46,9 @@ public class QuestionService {
     }
 
     public void create(String subject, String content, String category, List<MultipartFile> images,
-                       String address, String introduce,String time,
+                       String address, String introduce, String time,
                        String menu, String phone,
-                       String shopName, String foodType) {
+                       String shopName, String foodType, Member member) {
         List<String> imagePaths = new ArrayList<>();
 
         for (MultipartFile image : images) {
@@ -73,6 +74,7 @@ public class QuestionService {
         q.setShopName(shopName);
         q.setFoodType(foodType);
         q.setImages(imagePaths);
+        q.setAuthor(member);
         q.setCategory(category);
 
         q.setCreateDate(LocalDateTime.now());
