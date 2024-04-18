@@ -69,12 +69,17 @@ public class MemberService {
         String tempPassword = generateRandomPassword(random, 8);
         Member member = this.memberRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("해당 이메일의 유저가 없습니다."));
-        Member newMember = new Member();
-            newMember.setPassword(passwordEncoder.encode(tempPassword));
 
-        this.memberRepository.save(newMember);
+        // 패스워드를 설정하기 위해 setter를 사용합니다.
+        member.setPassword(passwordEncoder.encode(tempPassword));
+
+        // 변경된 멤버 정보를 저장합니다.
+        this.memberRepository.save(member);
+
+        // 임시 패스워드를 이메일로 전송합니다.
         emailService.sendSimpleMessage(email, tempPassword);
     }
+
 
     public static String generateRandomPassword(SecureRandom random, int length) {
         final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";

@@ -133,6 +133,8 @@ public class MemberController {
 
         return "redirect:/";
     }
+
+
     @GetMapping("/profile")
     public String profile(Model model, Principal principal) {
         String username = principal.getName();
@@ -140,5 +142,4 @@ public class MemberController {
         model.addAttribute("member", member);
         return "profile";
     }
-
 }

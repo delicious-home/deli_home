@@ -29,4 +29,6 @@ public class Member {
     public void thumbnailImg(String thumbnailRelPath) {
         this.thumbnailImg = thumbnailRelPath;
     }
+
+
 }
