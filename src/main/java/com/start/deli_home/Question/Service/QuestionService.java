@@ -90,9 +90,37 @@ public class QuestionService {
         }
     }
 
-    public void modify(Question question, String subject, String content) {
+    public void modify(Question question, String subject, String content,String category, List<MultipartFile> images,
+                       String address, String introduce, String time,
+                       String menu, String phone,
+                       String shopName, String foodType, Member member) {
+
+        List<String> imagePaths = new ArrayList<>();
+
+        for (MultipartFile image : images) {
+            String imageRelPath = "article/" + UUID.randomUUID().toString() + ".jpg";
+            File imageFile = new File(fileDirPath + "/" + imageRelPath);
+
+            try {
+                image.transferTo(imageFile);
+                imagePaths.add(imageRelPath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
         question.setSubject(subject);
         question.setContent(content);
+        question.setAddress(address);
+        question.setIntroduce(introduce);
+        question.setTime(time);
+        question.setMenu(menu);
+        question.setPhone(phone);
+        question.setShopName(shopName);
+        question.setFoodType(foodType);
+        question.setImages(imagePaths);
+        question.setCategory(category);
         this.questionRepository.save(question);
     }
     public void delete(Question question){

@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -89,12 +90,23 @@ public class QuestionController {
 
         questionForm.setSubject(question.getSubject());
         questionForm.setContent(question.getContent());
+        questionForm.setCategory(question.getCategory());
+        questionForm.setImages(new ArrayList<>());
+        questionForm.setAddress(question.getAddress());
+        questionForm.setIntroduce(question.getIntroduce());
+        questionForm.setTime(question.getTime());
+        questionForm.setMenu(question.getTime());
+        questionForm.setPhone(question.getPhone());
+        questionForm.setMenu(question.getMenu());
+        questionForm.setPhone(question.getPhone());
+        questionForm.setShopName(question.getShopName());
+        questionForm.setFoodType(question.getFoodType());
         return "question_form";
     }
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String questionModify(@Valid QuestionForm questionForm, BindingResult bindingResult,
-                                 @PathVariable("id") Integer id,Principal principal) {
+                                 @PathVariable("id") Integer id,Principal principal,@RequestParam("images") List<MultipartFile> images) {
         if (bindingResult.hasErrors()) {
             return "question_form";
         }
@@ -103,7 +115,10 @@ public class QuestionController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
 
-        this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
+        Member member = this.memberService.getMember(principal.getName());
+        this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent(),questionForm.getCategory(),images,
+                questionForm.getAddress(),questionForm.getIntroduce(),questionForm.getTime(),questionForm.getMenu(),
+                questionForm.getPhone(),questionForm.getShopName(),questionForm.getFoodType(),member);
         return String.format("redirect:/question/detail/%s", id);
     }
     @PreAuthorize("isAuthenticated()")

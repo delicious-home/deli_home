@@ -67,10 +67,6 @@ public class Question {
         this.thumbnailImg = thumbnailRelPath;
     }
 
-
-
-
     @ElementCollection
     private List<String> images = new ArrayList<>();
-
 }
