@@ -1,12 +1,12 @@
-<!DOCTYPE html>
 <html layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <!-- 부트스트랩 CSS 링크 -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<!--        &lt;!&ndash; 부트스트랩 CSS 링크 &ndash;&gt;-->
+<!--        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"-->
+<!--              integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">-->
+    <!-- 부트스트랩 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* 사진을 나열할 컨테이너의 스타일 */
@@ -37,14 +37,9 @@
             position: relative; /* 포지션을 상대적으로 설정하여 하위 요소를 포지셔닝할 수 있도록 합니다. */
         }
 
-        .category-link {
-            position: absolute; /* 절대 위치로 설정하여 부모 요소 내에서 위치를 지정합니다. */
-            top: 600px; /* 사진의 위에서 20px 아래로 이동합니다. */
-            right: 400px; /* 사진의 오른쪽에서 20px 왼쪽으로 이동합니다. */
-            z-index: 1; /* 링크를 사진 위로 올리기 위해 z-index 값을 설정합니다. */
-        }
+
         .photo-container {
-            margin-top: 500px; /* 사진 컨테이너의 위쪽에 여백을 추가하여 사진을 아래로 이동시킵니다. */
+            margin-top: 200px; /* 사진 컨테이너의 위쪽에 여백을 추가하여 사진을 아래로 이동시킵니다. */
         }
         .nav-link {
             float: right;
@@ -67,9 +62,27 @@
         .btn-category-text {
             color: #fff; /* 흰색으로 변경 */
         }
-
-
-
+        .category-description {
+            position: absolute; /* 절대 위치로 설정하여 부모 요소 내에서 위치를 지정합니다. */
+            top: 200px; /* 사진의 위에서 20px 아래로 이동합니다. */
+            right: 400px; /* 사진의 오른쪽에서 20px 왼쪽으로 이동합니다. */
+            z-index: 1; /* 링크를 사진 위로 올리기 위해 z-index 값을 설정합니다. */
+        }
+        .btn-korea {
+            position:relative;
+            left:1100px;
+            top:150px;
+        }
+        .btn-chinese {
+            position:relative;
+            left:1100px;
+            top:150px;
+        }
+        .btn-usa {
+            position:relative;
+            left:1100px;
+            top:150px;
+        }
     </style>
 </head>
 <body>
@@ -95,26 +108,39 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
+    <div class="text-right"> <!-- 텍스트를 오른쪽으로 이동시키는 text-right 클래스 추가 -->
+        <div class="col-md-4">
+            <!-- 추가된 텍스트 -->
+            <div class="category-description"> <!-- 클래스 변경 -->
+                <div style="margin-bottom: 50px;"> <!-- 큰 여백을 위한 div -->
+                    <h3 style="font-size: 28px; font-weight: bold;">어서오세요!</h3>
+                </div>
+                <p style="font-size: 20px; margin-bottom: 50px;">이곳은 우리의 맛있는 세계로 환영합니다.</p>
+                <div style="margin-bottom: 100px;"> <!-- 큰 여백을 위한 div -->
+                    <div style="margin-bottom: 100px;"> <!-- 추가된 텍스트와 다음 텍스트 사이의 여백을 위한 div -->
+                        <p style="font-size: 18px;">즐거운 시간을 보내세요!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-    <a href="/question/list?category=한식" class="btn btn-secondary category-link mx-2" data-category="한식">한식</a>
+    <a href="/question/list?category=한식" class="btn btn-secondary btn-korea" data-category="한식">한식</a>
     <div class="photo-container">
         <img class="photo-item" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPt3tCuZZ_Hi2Svh1A0o2l58V6DavSj04Xs2_Iuyd_Ng&s" alt="사진 1">
         <img class="photo-item" src="https://a.cdn-hotels.com/gdcs/production188/d1750/2255e427-d720-43e2-ae85-6a6719fafc03.jpg" alt="사진 2">
         <img class="photo-item" src="https://news.kbs.co.kr/data/news/2017/01/04/3405677_bH6.jpg" alt="사진 3">
         <!-- 필요한 만큼 사진을 추가할 수 있습니다 -->
     </div>
-    <a class="nav-link text-dark btn btn-category" th:href="@{|/question/list?category=중식|}"><span class="btn-category-text">중식</span></a>
+    <a href="/question/list?category=중식" class="btn btn-secondary btn-chinese" data-category="중식">중식</a>
     <div class="photo-container">
         <img class="photo-item" src="https://mblogthumb-phinf.pstatic.net/MjAxODA2MTdfMjY5/MDAxNTI5MjEwOTM5NDMx.qsw9L7JnQli_duTRx2d9mSPNMPuqnayC2CXFck0YivIg.4sbaq9BCdw8XlHUHD02Ebo9rfG5-EdBDZKcfECqF1OEg.PNG.mhj5333/image_7819565331529210768313.png?type=w800" alt="사진 1">
         <img class="photo-item" src="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/bWr4/image/jDbg98YVzxHv2dvhrmpm3X29wuA.jpg" alt="사진 2">
         <img class="photo-item" src="https://img.hankyung.com/photo/202306/99.33822934.1.jpg" alt="사진 3">
         <!-- 필요한 만큼 사진을 추가할 수 있습니다 -->
     </div>
-    <a class="nav-link text-dark btn btn-category" th:href="@{|/question/list?category=양식|}"><span class="btn-category-text">양식</span></a>
+    <a href="/question/list?category=양식"><span class="btn btn-secondary btn-usa">양식</span></a>
     <div class="photo-container">
         <img class="photo-item" src="https://png.pngtree.com/thumb_back/fw800/background/20230224/pngtree-mushroom-en-cocotte---frech-cuisine-image_1696577.jpg" alt="사진 1">
         <img class="photo-item" src="https://t3.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/3yEW/image/Y7Cd-_q2GF9Ml9v7hDWzEgMuWQ4.jpeg" alt="사진 2">
@@ -122,6 +148,5 @@
         <!-- 필요한 만큼 사진을 추가할 수 있습니다 -->
     </div>
 </div>
-
 </body>
 </html>

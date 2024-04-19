@@ -1,11 +1,27 @@
-<!DOCTYPE html>
-<html>
+<html layout:decorate="~{layout}">
 <head>
-    <!-- 여기에 필요한 스타일시트와 스크립트를 추가하세요 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* 추가적인 스타일은 여기에 추가하세요 */
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: auto;
+        }
+        .content-wrapper {
+            max-width: 1000px; /* 내용의 최대 너비를 지정하세요 */
+            width: 100%;
+            padding: 0 20px; /* 내용의 좌우 여백을 지정하세요 */
+        }
+    </style>
 </head>
 <body>
-
-<div layout:fragment="content" class="container">
+<div layout:fragment="content" class="container my-3">
 
     <h5 class="my-3 border-bottom pb-2">가게등록</h5>
     <form th:object="${questionForm}" method="post" enctype="multipart/form-data">
