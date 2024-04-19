@@ -16,6 +16,7 @@
                     <a href="/question/list?category=한식" class="btn btn-secondary category-link mx-2" data-category="한식">한식</a>
                     <a href="/question/list?category=중식" class="btn btn-secondary category-link mx-2" data-category="중식">중식</a>
                     <a href="/question/list?category=양식" class="btn btn-secondary category-link mx-2" data-category="양식">양식</a>
+                    <a href="/question/list?category=디저트" class="btn btn-secondary category-link mx-2" data-category="디저트">디저트</a>
                     <!-- 추가적인 카테고리 옵션들을 필요에 따라 추가 -->
                 </div>
             </div>
@@ -49,17 +50,15 @@
                             <img th:src="@{|/file/${question.images[0]}|}" alt="사진" style="max-width: 300px; max-height: 200px;">
                             </a>
                         </div>
-                    <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
-                    <div style="margin-left: 10px;">
-                        <div th:text="${question.shopName}"></div>
-                    </div>
-                        <div style="margin-left: 10px;">
-                            <div th:text="${question.foodType}"></div>
+                        <div>
+                            <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
+                            <div th:text="${question.shopName}" style="margin-top: 5px;"></div>
+                            <div th:text="${question.foodType}" style="margin-top: 5px;"></div>
+                            <span class="text-danger small ms-2"
+                                  th:if="${#lists.size(question.reviewList) > 0}"
+                                  th:text="${#lists.size(question.reviewList)}">
+            </span>
                         </div>
-                    <span class="text-danger small ms-2"
-                          th:if="${#lists.size(question.reviewList) > 0}"
-                          th:text="${#lists.size(question.reviewList)}">
-                    </span>
                     </div>
                 </td>
 

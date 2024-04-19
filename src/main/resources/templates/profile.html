@@ -1,18 +1,29 @@
-<!DOCTYPE html>
-<html lang="ko">
+<html layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>프로필</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+       img.absolute {
+        position:absolute;
+        left:700px;
+        top:80px;
+        }
+        </style>
+
 </head>
 <body>
+<div layout:fragment="content" class="container my-3">
 <h1>프로필</h1>
 <div>
     <p>사용자 이름: <span th:text="${member.username}"></span></p>
     <p>이메일: <span th:text="${member.email}"></span></p>
     <!-- 썸네일 이미지 표시 -->
     <!-- <img th:src="@{'/user/thumbnail/' + ${member.thumbnailImg}}" th:alt="프로필 이미지" style="max-width: 200px; max-height: 200px;"> -->
-    <img th:src="@{|/file/${member.thumbnailImg}|}" alt="사진" style="max-width: 200px; max-height: 200px;">
+    <img class="absolute" th:src="@{|/file/${member.thumbnailImg}|}" alt="사진" style="max-width: 200px; max-height: 200px;">
 
+</div>
 </div>
 </body>
 </html>
