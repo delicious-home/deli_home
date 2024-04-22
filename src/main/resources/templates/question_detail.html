@@ -36,9 +36,24 @@
             <div class="card my-3">
                 <div class="card-body">
                     <div class="card-text" style="white-space: pre-line;" th:text="${question.content}"></div>
+                    <span class="card-text"
+                          th:text="|추천 : ${#lists.size(question.likers)}|"></span>
                     <div class="my-3">
                         <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary mr-2" th:text="수정"></a>
                         <a th:href="@{|/question/delete/${question.id}|}" class="btn btn-sm btn-outline-secondary" th:text="삭제"></a>
+                        <!-- 추천 버튼 -->
+                        <a th:href="@{|/question/like/${question.id}|}" class="btn btn-sm btn-outline-secondary"
+                           th:if="${not question.likedByCurrentUser}" sec:authorize="isAuthenticated()">
+                            추천 <i style="padding-left:5px;" class="fa-solid fa-thumbs-up"></i>
+                            <span class="badge rounded-pill bg-success" th:text="${#lists.size(question.likers)}"></span>
+                        </a>
+
+                        <!-- 추천 취소 버튼 -->
+                        <a th:href="@{|/question/like/${question.id}|}" class="btn btn-sm btn-outline-secondary"
+                           th:if="${question.likedByCurrentUser}" sec:authorize="isAuthenticated()">
+                            취소 <i style="padding-left:5px;" class="fa-solid fa-thumbs-down"></i>
+                            <span class="badge rounded-pill bg-success" th:text="${#lists.size(question.likers)}"></span>
+                        </a>
                     </div>
 
                     <div class="d-flex justify-content-end">

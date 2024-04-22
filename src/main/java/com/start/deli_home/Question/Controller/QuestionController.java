@@ -132,4 +132,22 @@ public class QuestionController {
         this.questionService.delete(question);
         return "redirect:/question/list";
     }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/like/{id}")
+    public String likeOrUnlikeQuestion(@PathVariable("id") Integer id, Principal principal) {
+        Member member = this.memberService.getMember(principal.getName());
+        Question question = this.questionService.getQuestion(id);
+
+        if (question != null && member != null) {
+            if (question.getLikers().contains(member)) {
+                this.questionService.unLike(question, member);
+                question.setLikedByCurrentUser(false);
+            } else {
+                this.questionService.like(question, member);
+                question.setLikedByCurrentUser(true);
+            }
+            this.questionService.questionSave(question);
+        }
+        return String.format("redirect:/question/detail/%s", id);
+    }
 }

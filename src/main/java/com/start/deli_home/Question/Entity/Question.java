@@ -11,6 +11,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -61,12 +62,21 @@ public class Question {
     @Column(name = "create_date")
     private LocalDateTime createDate;
 
-    private String thumbnailImg;
+//    private String thumbnailImg;
 
-    public void thumbnailImg(String thumbnailRelPath) {
-        this.thumbnailImg = thumbnailRelPath;
-    }
+//    public void thumbnailImg(String thumbnailRelPath) {
+//        this.thumbnailImg = thumbnailRelPath;
+//    }
 
     @ElementCollection
     private List<String> images = new ArrayList<>();
+
+    @ManyToMany
+    private Set<Member> likers;
+
+    private boolean likedByCurrentUser;
+
+    public void setLikedByCurrentUser(boolean likedByCurrentUser) {
+        this.likedByCurrentUser = likedByCurrentUser;
+    }
 }

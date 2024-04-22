@@ -1,4 +1,26 @@
-
+<html layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* 추가적인 스타일은 여기에 추가하세요 */
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: auto;
+        }
+        .content-wrapper {
+            max-width: 1000px; /* 내용의 최대 너비를 지정하세요 */
+            width: 100%;
+            padding: 0 20px; /* 내용의 좌우 여백을 지정하세요 */
+        }
+    </style>
+</head>
+<body>
 <div layout:fragment="content" class="container my-3">
     <form th:action="@{/user/login}" method="post">
         <div th:if="${param.error}">
@@ -14,7 +36,9 @@
             <label for="password" class="form-label">비밀번호</label>
             <input type="password" name="password" id="password" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">로그인</button>
+        <button type="submit" class="btn btn-dark">로그인</button>
     </form>
 </div>
+</body>
+</html>
 

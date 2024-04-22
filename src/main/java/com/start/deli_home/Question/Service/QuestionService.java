@@ -134,5 +134,18 @@ public class QuestionService {
     public Page<Question> boardSearchList(String searchKeyword, Pageable pageable) { // 검색 기능 추가
         return questionRepository.findBySubjectContaining(searchKeyword, pageable);
     }
+    public void like (Question question,Member member) {
+        question.getLikers().add(member);
+        question.setLikedByCurrentUser(true);
+        this.questionRepository.save(question);
+    }
+    public void unLike (Question question,Member member) {
+        question.getLikers().remove(member);
+        question.setLikedByCurrentUser(false);
+        this.questionRepository.save(question);
+    }
+    public void questionSave (Question question) {
+
+    }
 
 }
